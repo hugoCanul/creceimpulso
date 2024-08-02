@@ -22,7 +22,7 @@ class RatesController extends Component
     public $search, $selected_id, $pageTitle, $componentName, $open; 
 
     #[Validate('required', message:'El valor es necesario')]
-    #[Validate('unique:roles,name', message:'No se puede duplicar el Rol')]
+    #[Validate('unique:rates,name', message:'No se puede duplicar el Rol')]
     #[Validate('min:4', message:'Debe contener minimo 4 caracteres')]
     public $name;
     

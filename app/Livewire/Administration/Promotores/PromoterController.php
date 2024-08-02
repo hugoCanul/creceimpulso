@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Livewire\Administration\Coordinadores;
+namespace App\Livewire\Administration\Promotores;
 
 use App\Models\Cities;
 use App\Models\Coordinator;
+use App\Models\Promoters;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class CoordinatorController extends Component
+class PromoterController extends Component
 {
     use WithPagination;
 
@@ -27,11 +28,13 @@ class CoordinatorController extends Component
     public $city_id;
 
     #[Validate('required', message:'El valor es necesario')]
+    public $coordinator_id;
+
+    #[Validate('required', message:'El valor es necesario')]
     #[Validate('min:10', message:'Debe contener minimo 10 digitos')]
     #[Validate('max:10', message:'Debe contener máximo 10 digitos')]
+    #[Validate('unique:administrators,phone', message:'El numero telefonico ya esta registrado para otro usuario')]
     public $phone;
-
-
 
     public $pagination = 10;
 
@@ -42,24 +45,26 @@ class CoordinatorController extends Component
         $this->name = '';
         $this->lastName='';
         $this->city_id='';
+        $this->coordinator_id='';
         $this->phone='';
         $this->search = null;
         $this->selected_id = 0;
         $this->pageTitle = 'LISTADO';
-        $this->componentName = 'SECCIÓN DE COORDINADORES';
+        $this->componentName = 'SECCIÓN DE PROMOTORES';
     }
 
     public function render()
     {
         if($this->search){
-            $data = Coordinator::where('name', 'like', '%' . $this->search .'%')->paginate($this->pagination);
+            $data = Promoters::where('name', 'like', '%' . $this->search .'%')->paginate($this->pagination);
         }else{
-            $data = Coordinator::orderBy('id', 'asc')->paginate($this->pagination);
+            $data = Promoters::orderBy('id', 'asc')->paginate($this->pagination);
         }
 
-        return view('livewire.administration.coordinadores.component', [
+        return view('livewire.administration.promotores.component', [
             'data' => $data,
             'ciudades'=> Cities::all(),
+            'coordinadores'=> Coordinator::all(),
         ])
             ->extends('layouts.themes.app')
             ->section('content');
@@ -70,11 +75,12 @@ class CoordinatorController extends Component
         $this->name = '';
         $this->lastName='';
         $this->city_id='';
+        $this->coordinator_id='';
         $this->phone='';
         $this->search = '';
         $this->selected_id = 0;
         $this->pageTitle = 'LISTADO';
-        $this->componentName = 'SECCIÓN DE COORDINADORES';
+        $this->componentName = 'SECCIÓN DE PROMOTORES';
         $this->resetValidation();
         $this->resetPage();
         $this->open = false;
@@ -83,14 +89,9 @@ class CoordinatorController extends Component
 
     public function Store()
     {
-        $this->validate();
+        $data = $this->validate();
 
-        Coordinator::create([
-            'name' => $this->name, 
-            'lastName' =>  $this->lastName,
-            'city_id' => $this->city_id,
-            'phone'=>$this->phone
-    ]);
+        Promoters::create($data);
 
         $this->resetUI();
         $this->dispatch('sweet-toast', icon:'success', title:'Registro agregado con éxito!');
@@ -99,12 +100,13 @@ class CoordinatorController extends Component
     public function Editar($id)
     {
         $this->open = true;
-        $Cordi = Coordinator::find($id);
+        $Promo = Promoters::find($id);
 
-        $this->name = $Cordi->name;
-        $this->lastName = $Cordi->lastName;
-        $this->city_id = $Cordi->city_id;
-        $this->phone = $Cordi->phone;
+        $this->name = $Promo->name;
+        $this->lastName = $Promo->lastName;
+        $this->city_id = $Promo->city_id;
+        $this->coordinator_id = $Promo->coorditar_id;
+        $this->phone = $Promo->phone;
 
         $this->selected_id = $id;
     }
@@ -113,11 +115,12 @@ class CoordinatorController extends Component
     {
         $this->validate();
 
-        $Cordi = Coordinator::find($this->selected_id);
+        $Promo = Promoters::find($this->selected_id);
 
-        $Cordi->update(['name' => $this->name, 
+        $Promo->update(['name' => $this->name, 
             'lastName' =>  $this->lastName,
             'city_id' => $this->city_id,
+            'coordinator_id' =>  $this->lastName,
             'phone'=>$this->phone]);
 
         $this->resetUI();
@@ -125,9 +128,9 @@ class CoordinatorController extends Component
     }
 
 
-    public function confirmDelete(Coordinator $coordinator)
+    public function confirmDelete(Promoters $promotor)
     {
-        $coordinator->delete();
+        $promotor->delete();
         $this->dispatch('sweet-toast', icon:'succes', title:'Registro eliminado');
         $this->resetUI();
     }

@@ -39,6 +39,20 @@
                         @enderror
                     </div>
                     <div>
+                        <x-select-model
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            :options="$coordinadores"
+                            wire:model="coordinator_id" 
+                            value-field="id" 
+                            label-field="name" 
+                            label="Asignar Coordinador"
+                        >
+                        </x-select-model>
+                        @error('city_id')
+                            <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">{{ $message }}</span></p>
+                        @enderror
+                    </div>
+                    <div>
                         <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Teléfono</label>
                         <input type="number" wire:model='phone' id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Teléfono">
                         @error('phone')

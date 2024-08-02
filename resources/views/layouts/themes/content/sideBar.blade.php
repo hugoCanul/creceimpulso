@@ -11,7 +11,8 @@
                 </a>
 
                     @include('layouts.themes.content.menu.settings')
-                    @include('layouts.themes.content.menu.administrador')
+                    @include('layouts.themes.content.menu.DirGral')
+                    @include('layouts.themes.content.menu.Administracion')
 
 
         </ul>
