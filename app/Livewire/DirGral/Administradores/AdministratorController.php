@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Livewire\Administration\Promotores;
+namespace App\Livewire\DirGral\Administradores;
 
+use App\Models\Administrators;
 use App\Models\Cities;
 use App\Models\Coordinator;
-use App\Models\Promoters;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class PromoterController extends Component
+class AdministratorController extends Component
 {
     use WithPagination;
 
@@ -50,18 +50,18 @@ class PromoterController extends Component
         $this->search = null;
         $this->selected_id = 0;
         $this->pageTitle = 'LISTADO';
-        $this->componentName = 'SECCIÓN DE PROMOTORES';
+        $this->componentName = 'SECCIÓN DE ADMINISTRADORES';
     }
 
     public function render()
     {
         if($this->search){
-            $data = Promoters::where('name', 'like', '%' . $this->search .'%')->paginate($this->pagination);
+            $data = Administrators::where('name', 'like', '%' . $this->search .'%')->paginate($this->pagination);
         }else{
-            $data = Promoters::orderBy('id', 'asc')->paginate($this->pagination);
+            $data = Administrators::orderBy('id', 'asc')->paginate($this->pagination);
         }
 
-        return view('livewire.administration.promotores.component', [
+        return view('livewire.dirgral.administradores.component', [
             'data' => $data,
             'ciudades'=> Cities::all(),
             'coordinadores'=> Coordinator::all(),
@@ -80,7 +80,7 @@ class PromoterController extends Component
         $this->search = '';
         $this->selected_id = 0;
         $this->pageTitle = 'LISTADO';
-        $this->componentName = 'SECCIÓN DE PROMOTORES';
+        $this->componentName = 'SECCIÓN DE ADMINISTRADORES';
         $this->resetValidation();
         $this->resetPage();
         $this->open = false;
@@ -91,7 +91,7 @@ class PromoterController extends Component
     {
         $data = $this->validate();
 
-        Promoters::create($data);
+        Administrators::create($data);
 
         $this->resetUI();
         $this->dispatch('sweet-toast', icon:'success', title:'Registro agregado con éxito!');
@@ -100,13 +100,13 @@ class PromoterController extends Component
     public function Editar($id)
     {
         $this->open = true;
-        $Promo = Promoters::find($id);
+        $Admins = Administrators::find($id);
 
-        $this->name = $Promo->name;
-        $this->lastName = $Promo->lastName;
-        $this->city_id = $Promo->city_id;
-        $this->coordinator_id = $Promo->coorditar_id;
-        $this->phone = $Promo->phone;
+        $this->name = $Admins->name;
+        $this->lastName = $Admins->lastName;
+        $this->city_id = $Admins->city_id;
+        $this->coordinator_id = $Admins->coorditar_id;
+        $this->phone = $Admins->phone;
 
         $this->selected_id = $id;
     }
@@ -115,9 +115,9 @@ class PromoterController extends Component
     {
         $this->validate();
 
-        $Promo = Promoters::find($this->selected_id);
+        $Admins = Administrators::find($this->selected_id);
 
-        $Promo->update(['name' => $this->name, 
+        $Admins->update(['name' => $this->name, 
             'lastName' =>  $this->lastName,
             'city_id' => $this->city_id,
             'coordinator_id' =>  $this->lastName,
@@ -128,10 +128,11 @@ class PromoterController extends Component
     }
 
 
-    public function confirmDelete(Promoters $promotor)
+    public function confirmDelete(Administrators $administrador)
     {
-        $promotor->delete();
+        $administrador->delete();
         $this->dispatch('sweet-toast', icon:'succes', title:'Registro eliminado');
         $this->resetUI();
     }
+    
 }

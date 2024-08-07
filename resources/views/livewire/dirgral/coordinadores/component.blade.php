@@ -70,8 +70,7 @@
         </table>
     </div>
     {{ $data->links()}}
-    @include('livewire.administration.administradores.form')
-
+    @include('livewire.DirGral.coordinadores.form')
 
     <x-confirm-delete></x-confirm-delete>
 </div>

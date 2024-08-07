@@ -1,9 +1,10 @@
 <?php
 
-use App\Livewire\Administration\Administradores\AdministratorController;
-use App\Livewire\Administration\Coordinadores\CoordinatorController;
-use App\Livewire\Administration\Promotores\PromoterController;
-use App\Livewire\Administration\Rates\RatesController;
+use App\Livewire\Administration\Demands\DemandsController;
+use App\Livewire\DirGral\Administradores\AdministratorController;
+use App\Livewire\DirGral\Coordinadores\CoordinatorController;
+use App\Livewire\DirGral\Promotores\PromoterController;
+use App\Livewire\DirGral\Rates\RatesController;
 use App\Livewire\Permission\Role\RoleController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ Route::middleware([ 'auth:sanctum', config('jetstream.auth_session'), 'verified'
         Route::get('Administrador', AdministratorController::class)->name('IndexAdministrador');
         Route::get('TazasInteres', RatesController::class)->name('IndexRates');
         Route::get('Promotor', PromoterController::class)->name('IndexPromotor');
+        Route::get('Solicitudes',DemandsController::class)->name('IndexDemands');
     });
 
 });

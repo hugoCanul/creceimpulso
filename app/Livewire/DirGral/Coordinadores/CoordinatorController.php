@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Administration\Coordinadores;
+namespace App\Livewire\DirGral\Coordinadores;
 
 use App\Models\Cities;
 use App\Models\Coordinator;
@@ -57,7 +57,7 @@ class CoordinatorController extends Component
             $data = Coordinator::orderBy('id', 'asc')->paginate($this->pagination);
         }
 
-        return view('livewire.administration.coordinadores.component', [
+        return view('livewire.dirgral.coordinadores.component', [
             'data' => $data,
             'ciudades'=> Cities::all(),
         ])

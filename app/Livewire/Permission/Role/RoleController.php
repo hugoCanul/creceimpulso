@@ -2,7 +2,8 @@
 
 namespace App\Livewire\Permission\Role;
 
-use Livewire\Attributes\Validate;
+use App\Livewire\Forms\RoleCreateForm;
+use App\Livewire\Forms\RoleEditForm;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Permission\Models\Role;
@@ -13,10 +14,9 @@ class RoleController extends Component
 
     public $search, $selected_id, $pageTitle, $componentName, $open; 
 
-    #[Validate('required', message:'El valor es necesario')]
-    #[Validate('unique:roles,name', message:'No se puede duplicar el Rol')]
-    #[Validate('min:4', message:'Debe contener minimo 4 caracteres')]
-    public $name;
+    public RoleCreateForm $rolecreateform;
+
+    public RoleEditForm $roleeditform;
 
     public $pagination = 10;
 
@@ -24,7 +24,6 @@ class RoleController extends Component
 
     public function mount(){
         $this->open = false;
-        $this->name = '';
         $this->search = null;
         $this->selected_id = 0;
         $this->pageTitle = 'LISTADO';
@@ -48,23 +47,22 @@ class RoleController extends Component
 
     public function resetUI()
     {
-        $this->name = '';
         $this->search = '';
         $this->selected_id = 0;
         $this->pageTitle = 'LISTADO';
         $this->componentName = 'SECCIÓN DE ROLES';
+        $this->rolecreateform->resetUI();
+        $this->roleeditform->resetUI();
         $this->resetValidation();
         $this->resetPage();
         $this->open = false;
-        $this->reset(['name', 'search', 'selected_id']);
+        $this->reset([ 'search', 'selected_id']);
     }
 
     public function Store()
     {
-        $this->validate();
 
-        Role::create(['name' => $this->name, 'guard_name'=>'web']);
-
+        $this->rolecreateform->Save();
         $this->resetUI();
         $this->dispatch('sweet-toast', icon:'success', title:'Registro agregado con éxito!');
     }
@@ -74,19 +72,15 @@ class RoleController extends Component
         $this->open = true;
         $rol = Role::find($id);
 
-        $this->name = $rol->name;
+        $this->roleeditform->name = $rol->name;
 
         $this->selected_id = $id;
     }
 
-    public function Update()
+    public function Update($id)
     {
-        $this->validate();
 
-        $rol = Role::find($this->selected_id);
-
-        $rol->update(['name' => $this->name]);
-
+        $this->roleeditform->Save($id);
         $this->resetUI();
         $this->dispatch('sweet-toast', icon:'success', title:'Actualización exitosa!');
     }

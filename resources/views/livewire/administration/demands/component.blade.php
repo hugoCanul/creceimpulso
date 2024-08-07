@@ -7,7 +7,7 @@
             @include('common.search')
         </div>
         <div class="justify-self-auto">
-            <button wire:click="$set('open', true)" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" type="button">
+            <button wire:click="$set('demandsverifycurp.open', true)" class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-600 to-blue-500 group-hover:from-purple-600 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" type="button">
                 <span class="block relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
                     Crear nuevo
                 </span>
@@ -22,19 +22,19 @@
                         ID
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Nombre
+                        Nombres
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Apaellidos
+                        Apellido Materno
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Ciudad
+                        Apellido Paterno
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Telefono
+                        RFC
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Action
+                        CURP
                     </th>
                 </tr>
             </thead>
@@ -45,16 +45,18 @@
                         {{$item->id}}
                     </td>
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{$item->name}}
+                        {{$item->pNombre . ' ' . $item->sNombre}}
                     </th>
                     <td class="px-6 py-4">
-                        {{$item->lastName}}
+                        {{$item->aMaterno}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$item->city_id}}
+                        {{$item->aPaterno}}
+                    </td><td class="px-6 py-4">
+                        {{$item->rfc}}
                     </td>
                     <td class="px-6 py-4">
-                        {{$item->phone}}
+                        {{$item->curp}}
                     </td>
                     <td class="px-6 py-4">
                         <button type="button" wire:click='Editar({{$item->id}})' class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
@@ -70,8 +72,7 @@
         </table>
     </div>
     {{ $data->links()}}
-    @include('livewire.administration.promotores.form')
-
+    @include('livewire.administration.demands.verifyCurp')
 
     <x-confirm-delete></x-confirm-delete>
 </div>

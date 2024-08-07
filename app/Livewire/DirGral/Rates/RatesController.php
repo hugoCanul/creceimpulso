@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Administration\Rates;
+namespace App\Livewire\DirGral\Rates;
 
 use App\Models\Cities;
 use App\Models\Rates;
@@ -67,7 +67,7 @@ class RatesController extends Component
             $rows = Rates::orderBy('id', 'asc')->paginate($this->pagination);
         }
 
-        return view('livewire.administration.rates.component', [
+        return view('livewire.dirgral.rates.component', [
             'headers' => $this->headers,
             'rows' => $rows,
             'displayColumns' => $this->displayColumns,

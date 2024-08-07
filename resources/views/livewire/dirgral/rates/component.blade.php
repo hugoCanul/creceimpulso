@@ -18,7 +18,7 @@
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
     <x-table :headers="$headers" :rows="$rows" :displayColumns="$displayColumns"/>
     </div>
-    @include('livewire.administration.rates.form')
+    @include('livewire.DirGral.rates.form')
 
     <x-confirm-delete></x-confirm-delete>
 </div>
